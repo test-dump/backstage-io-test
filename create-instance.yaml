@@ -7,7 +7,7 @@ metadata:
   description: example
 spec:
   owner: user:guest
-  type: service
+  type: Component
   parameters:
     - title: Instance Details
       properties:
