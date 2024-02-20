@@ -1,0 +1,6 @@
+host_name          = "${{ values.app_instance_id }}-stage"
+instance_type      = "${{ values.instanceType }}"
+os_type            = "${{ values.osFlavour }}"
+subnet_id          = "${{ values.subnetId }}"
+security_group_ids = "${{ values.securityGroupIds }}"
+keypair            = "${{ values.keypair }}"

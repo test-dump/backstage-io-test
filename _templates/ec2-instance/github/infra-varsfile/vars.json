@@ -1,0 +1,13 @@
+{
+    "app_instance_id": "${{ values.app_instance_id }}",
+    "hostName": "${{ values.hostName }}",
+    "name": "${{ values.name }}",
+    "organization": "${{ values.organization }}",
+    "repository": "${{ values.repository }}",
+    "iz_name": "${{ values.iz_name }}",
+    "instanceType": "${{ values.instanceType }}",
+    "osFlavour": "${{ values.osFlavour }}",
+    "subnet_id": "${{ values.subnetId }}",
+    "security_group_ids": "${{ values.securityGroupIds }}",
+    "keypair": "${{ values.keypair }}"
+}

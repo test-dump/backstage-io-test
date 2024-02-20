@@ -1,0 +1,93 @@
+# nonk8s
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: deploy_ec2_instance
+  title: Deploy EC2 Instance
+  annotations:
+    cbm.backstage.io/allowedGroups: group:default/App_Creator,group:default/IZ_Creator,group:default/IZ_Approver
+spec:
+  type: compute
+  parameters:
+    - title: Instance Details
+      properties:
+        organization:
+          title: GitHub Organization
+          type: string
+          default: "Junk"
+        iz_name:
+          title: Enter iz name
+          type: string
+          default: "iz1"
+        app_instance_id:
+          title: App instance Id
+          type: string
+          description: The App instance Id
+        hostName:
+          title: Hostname
+          type: string
+        instanceType:
+          title: Instance Type
+          type: string
+          description: Select Instance Type
+          default: "t3.large"
+          enum:
+            - t3.medium
+            - t3.large
+            - t3.xlarge
+        osFlavour:
+          title: Operating System
+          type: string
+          description: Select the OS
+          default: "winsrv2019"
+          enum:
+            - winsrv2019
+            - ubuntu2204
+            - rhel9
+            - amz2023
+          enumNames:
+            - "Windows Server 2019"
+            - "Ubuntu 22.04"
+            - "RedHat 9"
+            - "Amazon Linux 2023"
+        keypair:
+          title: Keypair name
+          type: string
+        subnetId:
+          title: Subnet ID
+          type: string
+        securityGroupIds:
+          title: Security Groups
+          type: array
+          items:
+            type: string
+        environments:
+          title: Select environments
+          type: array
+          items:
+            type: string
+            enum:
+              - dev
+              - prd
+          uniqueItems: true
+          ui:widget: checkboxes
+  steps:
+    - id: fetchInfra
+      name: Fetch Infrastructure
+      action: fetch:template
+      input:
+        url: .././_templates/ec2-instance/github/infra
+        targetPath: ./target-infra
+        values:
+          hostName: ${{ parameters.hostName | lower }}
+          name: ${{ parameters.hostName }}
+          organization: ${{ parameters.organization }}
+          iz_name: ${{ parameters.iz_name }}
+          app_instance_id: ${{ parameters.app_instance_id }}
+          instanceType: ${{parameters.instanceType}}
+          osFlavour: ${{parameters.osFlavour}}
+          subnetId: ${{parameters.subnetId}}
+          security_group_ids: ${{parameters.securityGroupIds}}
+          keypair: ${{parameters.keypair}}
+          environments: ${{parameters.environments}}
+

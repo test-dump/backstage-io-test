@@ -1,0 +1,25 @@
+name: Destroy Infrastructure - Use with Caution
+
+on:
+  # NOTE: Uncomment "push" block after creating an instance of this template
+  # It is commented out to prevent CI/CD pipeline executions each time 
+  # the template is updated.
+  workflow_dispatch:
+
+permissions:
+  id-token: write # This is required for requesting the JWT
+  contents: read  # This is required for actions/checkout
+  
+jobs:                      
+  destroy-sandbox:
+    with:
+      app_pattern_name: "aws-ec2"
+  destroy-dev:
+    with:
+      app_pattern_name: "aws-ec2"
+  destroy-stage:
+    with:
+      app_pattern_name: "aws-ec2"
+  destroy-prod:
+    with:
+      app_pattern_name: "aws-ec2"
