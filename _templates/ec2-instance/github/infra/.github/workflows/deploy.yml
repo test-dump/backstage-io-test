@@ -2,7 +2,7 @@ name: Deploy Infrastructure
 
 on:
   # NOTE: Uncomment "push" block after creating an instance of this template
-  # It is commented out to prevent CI/CD pipeline executions each time 
+  # It is commented out to prevent CI/CD pipeline executions each time
   # the template is updated.
 
   push:
@@ -14,22 +14,39 @@ on:
 permissions:
   id-token: write # This is required for requesting the JWT
   contents: read  # This is required for actions/checkout
-  
-jobs:                      
-  deploy-sandbox:
-    { % for env in values.environments % }
-      { % if env === 'sandbox' % }
-      if: true
-      { % endif % }
-    { % endfor % }
-    with:
-      app_pattern_name: "aws-ec2"
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      environments: ${{ steps.set_envs.outputs.environments }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: set_envs
+        run: |
+          environments=$(cat infrastructure/env.json)
+          echo "environments=${environments}" >> $GITHUB_OUTPUT
   deploy-dev:
-    with:
-      app_pattern_name: "aws-ec2"
-  deploy-stage:
-    with:
-      app_pattern_name: "aws-ec2"
-  deploy-prod:
-    with:
-      app_pattern_name: "aws-ec2"
+    runs-on: ubuntu-latest
+    needs: [setup]
+    if: contains(needs.setup.outputs.environments, 'dev')
+    steps:
+      - run: echo "running dev"
+  deploy-sit:
+    runs-on: ubuntu-latest
+    needs: [setup]
+    if: contains(needs.setup.outputs.environments, 'sit')
+    steps:
+      - run: echo "running sit"
+  deploy-pre:
+    runs-on: ubuntu-latest
+    needs: [ setup ]
+    if: contains(needs.setup.outputs.environments, 'pre')
+    steps:
+      - run: echo "running pre"
+  deploy-prd:
+    runs-on: ubuntu-latest
+    needs: [setup]
+    if: contains(needs.setup.outputs.environments, 'prd')
+    steps:
+      - run: echo "running prd"

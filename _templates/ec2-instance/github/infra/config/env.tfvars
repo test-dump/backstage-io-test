@@ -1,6 +1,7 @@
-host_name          = "${{ values.hostName }}-sandbox"
+host_name          = "${{ values.hostName }}"
 instance_type      = "${{ values.instanceType }}"
 os_type            = "${{ values.osFlavour }}"
 subnet_id          = "${{ values.subnetId }}"
 security_group_ids = "${{ values.securityGroupIds }}"
 keypair            = "${{ values.keypair }}"
+environments       = "${{ values.environments }}"
