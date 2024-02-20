@@ -3,7 +3,8 @@ apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
   name: deploy_ec2_instance
-  title: Deploy EC2 Instance
+  title: Example
+  description: example
 spec:
   owner: user:guest
   type: compute
@@ -71,11 +72,11 @@ spec:
           uniqueItems: true
           ui:widget: checkboxes
   steps:
-    - id: fetchInfra
+    - id: fetch-base
       name: Fetch Infrastructure
       action: fetch:template
       input:
-        url: .././_templates/ec2-instance/github/infra
+        url: _templates/ec2-instance/github/infra
         targetPath: ./target-infra
         values:
           hostName: ${{ parameters.hostName | lower }}
