@@ -4,9 +4,8 @@ kind: Template
 metadata:
   name: deploy_ec2_instance
   title: Deploy EC2 Instance
-  annotations:
-    cbm.backstage.io/allowedGroups: group:default/App_Creator,group:default/IZ_Creator,group:default/IZ_Approver
 spec:
+  owner: user:guest
   type: compute
   parameters:
     - title: Instance Details
@@ -90,4 +89,3 @@ spec:
           security_group_ids: ${{parameters.securityGroupIds}}
           keypair: ${{parameters.keypair}}
           environments: ${{parameters.environments}}
-
